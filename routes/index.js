@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var userModel = require('../models/UserModel');
 var productModel = require('../models/ProductModel');
+var categoryModel = require('../models/CategoryModel');
+var bankingCardModel = require('../models/BankingCardModel');
+var invoiceModel = require('../models/InvoiceModel');
 
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
@@ -42,6 +45,48 @@ router.post('/login', (req, res, next) => {
 
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
+  .then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data,
+        message: "1",
+      }
+    })
+  })
+  .catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+
+router.get('/getProductByCategory', (req, res) => {
+  productModel.getProductsByCategory(req.body.id_category)
+  .then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data,
+        message: "1",
+      }
+    })
+  })
+  .catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+
+router.get('/getProductByQuery', (req, res) => {
+  productModel.getProductsByQuery(req.body.searchStr)
   .then(data => {
     res.json({
       code: 1,
