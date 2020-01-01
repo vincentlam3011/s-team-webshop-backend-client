@@ -8,6 +8,7 @@ var invoiceModel = require('../models/InvoiceModel');
 
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
+var _ = require('lodash');
 
 var router = express.Router();
 /* GET home page. */
@@ -45,65 +46,122 @@ router.post('/login', (req, res, next) => {
 
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
-  .then(data => {
-    res.json({
-      code: 1,
-      info: {
-        data,
-        message: "1",
-      }
+    .then(data => {
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
     })
-  })
-  .catch(err => {
-    res.json({
-      code: 0,
-      info: {
-        message: err,
-      }
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
     })
-  })
 })
 
 router.get('/getProductByCategory', (req, res) => {
   productModel.getProductsByCategory(req.body.id_category)
-  .then(data => {
-    res.json({
-      code: 1,
-      info: {
-        data,
-        message: "1",
-      }
+    .then(data => {
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
     })
-  })
-  .catch(err => {
-    res.json({
-      code: 0,
-      info: {
-        message: err,
-      }
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
     })
-  })
 })
 
 router.get('/getProductByQuery', (req, res) => {
   productModel.getProductsByQuery(req.body.searchStr)
-  .then(data => {
-    res.json({
-      code: 1,
-      info: {
-        data,
-        message: "1",
-      }
+    .then(data => {
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
     })
-  })
-  .catch(err => {
-    res.json({
-      code: 0,
-      info: {
-        message: err,
-      }
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
     })
+})
+
+router.get('/getCategories', (req, res) => {
+  categoryModel.getAll()
+    .then(data => {
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+
+router.get('/getInvoices', (req, res) => {
+  invoiceModel.getAllByUser(req.body.id)
+    .then(data => {
+      let details = _.groupBy(data, "id_invoice");
+      console.log(details);
+      var final = [];
+      _.forEach(details, (value, key) => {
+        const products = _.map(value, item => {
+          const { id_product, productName, quantity, singlePrice } = item;
+          return { id_product, productName, quantity, singlePrice };
+        })
+        const temp = {
+          id_invoice: value[0].id_invoice,
+          email: value[0].email,
+          products,
+        }
+        final.push(temp);
+      })
+    res.json({
+        code: 1,
+        info: {
+          final,
+          message: "1",
+        }
+      })
   })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
 })
 
 module.exports = router;
