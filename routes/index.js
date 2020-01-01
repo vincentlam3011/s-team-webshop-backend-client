@@ -43,7 +43,83 @@ router.post('/login', (req, res, next) => {
     }
   })(req, next);
 });
+router.post('/register', (req, res, next) => {
 
+  userModel.addUser(req.body).then(data => {
+    console.log('data:', data);
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Register Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+});
+router.post('/post', (req, res, next) => {
+
+  userModel.addUser(req.body).then(data => {
+    console.log('data:', data);
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Add user Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+});
+router.put('/users', (req, res) => {
+  userModel.updateUsers(req.body).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Update Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+router.delete('/users', (req, res) => {
+  userModel.deleteUsers(req.body.id).then(data => {
+
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Delete Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
@@ -106,7 +182,61 @@ router.get('/getProductByQuery', (req, res) => {
       })
     })
 })
+router.post('/products', (req, res) => {
+  productModel.addProduct(req.body).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Add Success",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+router.put('/products', (req, res) => {
+  productModel.updateProduct(req.body).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Update Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+router.delete('/products', (req, res) => {
+  productModel.deleteProduct(req.body.id).then(data => {
 
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Delete Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
 router.get('/getCategories', (req, res) => {
   categoryModel.getAll()
     .then(data => {
@@ -127,7 +257,61 @@ router.get('/getCategories', (req, res) => {
       })
     })
 })
+router.post('/categories', (req, res) => {
+  categoryModel.addcategory(req.body).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Add Success",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+router.put('/categories', (req, res) => {
+  categoryModel.updateCategories(req.body).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Update Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+router.delete('/categories', (req, res) => {
+  categoryModel.deleteCategories(req.body.id).then(data => {
 
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Delete Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
 router.get('/getInvoices', (req, res) => {
   invoiceModel.getAllByUser(req.body.id)
     .then(data => {
@@ -146,14 +330,14 @@ router.get('/getInvoices', (req, res) => {
         }
         final.push(temp);
       })
-    res.json({
+      res.json({
         code: 1,
         info: {
           final,
           message: "1",
         }
       })
-  })
+    })
     .catch(err => {
       res.json({
         code: 0,
@@ -163,5 +347,22 @@ router.get('/getInvoices', (req, res) => {
       })
     })
 })
-
+router.post('/invoices', (req, res) => {
+  invoiceModel.addInvoices(req.body).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Add Success",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
 module.exports = router;
