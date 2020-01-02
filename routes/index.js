@@ -111,6 +111,90 @@ router.post('/addEmployee', (req, res, next) => {
     })
   })
 });
+router.get('/getAllUsers', (req, res) => {
+  userModel.getAll()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+});
+router.post('/getUsersById', (req, res) => {
+  userModel.getById(req.body.id)
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+router.get('/getCustomers', (req, res) => {
+  userModel.getCustomers()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+router.get('/getEmployees', (req, res) => {
+  userModel.getEmployees()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
 router.put('/users', (req, res) => {
   userModel.updateUsers(req.body).then(data => {
     res.json({
