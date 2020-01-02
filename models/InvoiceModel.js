@@ -8,6 +8,14 @@ module.exports = {
         let query = select + " " + from + " " + where;
         return db.query(query);
     },
+    getInvoiceDetails: (id) => {
+        let select = `select inv.id, u.id as id_customer, u.email, p.id as id_product, p.name as productName, p.price as curPrice, p.id_category, c.name as categoryName
+                    , i.quantity, inv.createDate, inv.estimatedDeliveryDate, inv.total`;
+        let from = `from invoiceDetails as i, products as p, categories as c, invoices as inv, users as u`;
+        let where = `where inv.id_customer = ${id} and p.id_category = c.id and i.id_product = p.id and i.id_invoice = inv.id and inv.id_customer = u.id`;
+        let query = select + " " + from + " " + where;
+        return db.query(query);
+    },
     addInvoices: (invoice) => {
         invoice.status = invoice.status == 0 ? 0 : 1;
         var query = `INSERT INTO invoices(id_customer,status,createDate,estimatedDeliveryDate,total) VALUES (${invoice.id_customer},${invoice.status},'${invoice.createDate}','${invoice.estimatedDeliveryDate}',${invoice.total});`

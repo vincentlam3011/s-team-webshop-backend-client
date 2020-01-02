@@ -425,41 +425,93 @@ router.put('/deleteCategories', (req, res) => {
     })
   })
 })
-router.post('/getInvoices', (req, res) => {
-  invoiceModel.getAllByUser(req.body.id)
-    .then(data => {
-      let details = _.groupBy(data, "id_invoice");
-      console.log(details);
-      var final = [];
-      _.forEach(details, (value, key) => {
-        const products = _.map(value, item => {
-          const { id_product, productName, quantity, singlePrice } = item;
-          return { id_product, productName, quantity, singlePrice };
-        })
-        const temp = {
-          id_invoice: value[0].id_invoice,
-          email: value[0].email,
-          products,
-        }
-        final.push(temp);
+
+router.post('/getInvoiceDetails', (req, res) => {
+  let id = req.body.id_customer;
+  invoiceModel.getInvoiceDetails(id).then(productsList => {
+    let list = _.groupBy(productsList, "id");
+    // res.json(list);
+    var final = [];
+    _.forEach(list, (value, key) => {
+      const products = _.map(value, item => {
+        const { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName } = item;
+        return { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName };
       })
-      res.json({
-        code: 1,
-        info: {
-          final,
-          message: "1",
-        }
-      })
+      const temp = {
+        id_invoice: value[0].id,
+        id_customer: value[0].id_customer,
+        createDate: value[0].createDate,
+        deliveryDate: value[0].estimatedDeliveryDate,
+        email: value[0].email,
+        status: value[0].status,
+        total: value[0].total,
+        products,
+      }
+      final.push(temp);
     })
-    .catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: err,
-        }
-      })
+    res.json({
+      code: 1,
+      info: {
+        final,
+        message: "1",
+      }
     })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "0",
+        err
+      }
+    })
+  })
 })
+<<<<<<< HEAD
+=======
+
+router.post('/bankingCard', (req, res) => {
+  bankingCardModel.getByUser(req.body.id).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "1",
+        data,
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "0",
+        err,
+      }
+    })
+  })
+})
+
+router.put('/bankingCard', (req, res) => {
+  let { id_user, cardNum, cardType } = req.body;
+
+  bankingCardModel.editCard(id_user, cardNum, cardType).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "editted",
+        data,
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "failed",
+        err,
+      }
+    })
+  })
+})
+
+>>>>>>> b94b936e0ec6b11c5f5d405f41103ac108ca4dd6
 router.post('/addInvoice', (req, res) => {
   let productsList = req.body.productsList;
   let id_customer = req.body.id_customer;
