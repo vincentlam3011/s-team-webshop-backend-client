@@ -120,6 +120,90 @@ router.delete('/users', (req, res) => {
     })
   })
 })
+router.get('/getAllUsers', (req, res) => {
+  userModel.getAll()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+});
+router.get('/getUsersById', (req, res) => {
+  userModel.getById(req.body.id)
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+router.get('/getCustomers', (req, res) => {
+  userModel.getCustomers()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+router.get('/getEmployees', (req, res) => {
+  userModel.getEmployees()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
