@@ -114,7 +114,7 @@ router.post('/addEmployee', (req, res, next) => {
 router.get('/getAllUsers', (req, res) => {
   userModel.getAll()
     .then(data => {
- 
+
       res.json({
         code: 1,
         info: {
@@ -135,7 +135,7 @@ router.get('/getAllUsers', (req, res) => {
 router.post('/getUsersById', (req, res) => {
   userModel.getById(req.body.id)
     .then(data => {
- 
+
       res.json({
         code: 1,
         info: {
@@ -156,7 +156,7 @@ router.post('/getUsersById', (req, res) => {
 router.get('/getCustomers', (req, res) => {
   userModel.getCustomers()
     .then(data => {
- 
+
       res.json({
         code: 1,
         info: {
@@ -177,7 +177,7 @@ router.get('/getCustomers', (req, res) => {
 router.get('/getEmployees', (req, res) => {
   userModel.getEmployees()
     .then(data => {
- 
+
       res.json({
         code: 1,
         info: {
@@ -467,6 +467,7 @@ router.post('/getInvoiceDetails', (req, res) => {
   })
 })
 
+
 router.post('/bankingCard', (req, res) => {
   bankingCardModel.getByUser(req.body.id).then(data => {
     res.json({
@@ -556,5 +557,88 @@ router.post('/addInvoice', (req, res) => {
     })
   })
 })
+router.put('/invoices', (req, res) => {
+  let { id_user, cardNum, cardType } = req.body;
+
+  invoiceModel.updateInvoices(invoice).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "editted",
+        data,
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "failed",
+        err,
+      }
+    })
+  })
+})
+router.put('/deleteInvoices', (req, res) => {
+  invoiceModel.deleteInvoices(req.body.id).then(data => {
+
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Delete Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+router.post('/getBankingCard', (req, res) => {
+  bankingCardModel.getByUser(req.body.id).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "1",
+        data,
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "0",
+        err,
+      }
+    })
+  })
+})
+
+router.put('/bankingCard', (req, res) => {
+  let { id_user, cardNum, cardType } = req.body;
+
+  bankingCardModel.editCard(id_user, cardNum, cardType).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "editted",
+        data,
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "failed",
+        err,
+      }
+    })
+  })
+})
+
+
 
 module.exports = router;
