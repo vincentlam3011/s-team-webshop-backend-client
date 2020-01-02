@@ -1,23 +1,13 @@
 var db = require('../utils/db');
 
 module.exports = {
-    getAll: () => {
-        return db.query(`select * from categories where status = ${1}`);
+    getByUser: (id) => {
+        return db.query(`select * from banking_cards where id_user = ${id}`);
     },
-    getAllForAdmin: () => {
-        return db.query(`select * from categories`);
+    addBlankCard: (id) => {
+        return db.query(`insert into banking_cards(id_user) values(${id})`);
     },
-    addcategory: (category) => {
-        category.status = category.status == 0 ? 0 : 1;
-        return db.query(`INSERT INTO categories(name,status) VALUES ("${category.name}",${category.status})`);
-    },
-    updateCategories: (category) => {
-        category.status = category.status == 0 ? category.status : 1;
-        return db.query(`
-        
-        UPDATE categories SET name='${category.name}',status=${category.status} where id =${category.id}`);
-    },
-    deleteCategories: (id) => {
-        return db.query(`delete from categories where id =${id}`);
+    editCard: (id_user, cardNum, cardType) => {
+        return db.query(`update banking_cards set type = ${cardType}, cardNum = ${cardNum} where id_user = ${id_user}`);
     }
 }

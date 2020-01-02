@@ -18,7 +18,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/login', (req, res, next) => {
-
+  // Body ngoài email và password thì cần biến type:
+  // Type = 0: login bên user (login khách hàng)
+  // Type = 1 hoặc 2: login bên admin (nhân viên và admin)
   passport.authenticate('local', { session: false }, (err, user, info) => {
     if (user === false) {
       res.json({ user, info })
@@ -43,16 +45,27 @@ router.post('/login', (req, res, next) => {
     }
   })(req, next);
 });
+
 router.post('/register', (req, res, next) => {
 
-  userModel.addUser(req.body).then(data => {
+  userModel.addUser(req.body, 0).then(data => {
     console.log('data:', data);
-    res.json({
-      code: 1,
-      info: {
-        data: req.body,
-        message: "Registered Successfull",
-      }
+    let id = data.insertId;
+    bankingCardModel.addBlankCard(id).then(result => {
+      res.json({
+        code: 1,
+        info: {
+          data: req.body,
+          message: "Registered Successfull",
+        }
+      })
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
     })
   }).catch(err => {
     res.json({
@@ -63,16 +76,32 @@ router.post('/register', (req, res, next) => {
     })
   })
 });
-router.post('/post', (req, res, next) => {
+router.post('/addEmployee', (req, res, next) => {
 
-  userModel.addUser(req.body).then(data => {
-    console.log('data:', data);
+  userModel.addUser(req.body, 1).then(data => {
+    let id = data.insertId;
+    userModel.addEmployee(id).then(result => {
+      res.json({
+        code: 1,
+        info: {
+          data: req.body,
+          message: "Add user Successfull",
+        }
+      })
+    })
     res.json({
       code: 1,
       info: {
         data: req.body,
         message: "Add user Successfull",
       }
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
     })
   }).catch(err => {
     res.json({

@@ -11,9 +11,11 @@ passport.use(new LocalStrategy(
     {
         usernameField: 'email',
         passwordField: 'password',
+        passReqToCallback: true,
     },
-    function (email, password, cb) {
-        return userModel.getByEmail(email)
+    function (req, email, password, cb) {
+        let type = req.body.type;
+        return userModel.getByEmail(email, type)
             .then((data) => {
                 if (data.length > 0) {
                     if (password === data[0].password) {
