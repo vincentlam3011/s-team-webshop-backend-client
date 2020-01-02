@@ -2,11 +2,15 @@ var mysql = require('mysql');
 
 var createConnection = () => {
     return mysql.createConnection({
-        host: 'remotemysql.com',
-        database: 'vzcyoeYJSx',
+        // host: 'remotemysql.com',
+        // database: 'vzcyoeYJSx',
+        host: 'localhost',
+        database: 'nhom14_webshop',
+        user: 'root',
+        password: '30111998',
         port: '3306',
-        user: 'vzcyoeYJSx',
-        password: 'f5C58w9Nif',
+        // user: 'vzcyoeYJSx',
+        // password: 'f5C58w9Nif',
         dateStrings: true,
         timezone: 'Z',
 

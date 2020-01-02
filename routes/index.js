@@ -12,7 +12,7 @@ var _ = require('lodash');
 
 var router = express.Router();
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.post('/', function (req, res, next) {
   // res.render('index', { title: 'Express' });
   res.json('Welcome');
 });
@@ -232,7 +232,7 @@ router.put('/deleteUsers', (req, res) => {
     })
   })
 })
-router.get('/getAllProducts', (req, res) => {
+router.post('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
       res.json({
@@ -294,7 +294,7 @@ router.post('/getProductByQuery', (req, res) => {
       })
     })
 })
-router.post('/products', (req, res) => {
+router.post('/addProducts', (req, res) => {
   productModel.addProduct(req.body).then(data => {
     res.json({
       code: 1,
@@ -349,7 +349,7 @@ router.put('/deleteProducts', (req, res) => {
     })
   })
 })
-router.get('/getCategories', (req, res) => {
+router.post('/getCategories', (req, res) => {
   categoryModel.getAll()
     .then(data => {
       res.json({
@@ -460,26 +460,30 @@ router.post('/getInvoices', (req, res) => {
       })
     })
 })
-router.post('/invoices', (req, res) => {
-  invoiceModel.addInvoices(req.body).then(data => {
-    res.json({
-      code: 1,
-      info: {
-        data: req.body,
-        message: "Add Success",
-      }
-    })
-  }).catch(err => {
-    res.json({
-      code: 0,
-      info: {
-        message: err,
-      }
-    })
-  })
-})
+// router.post('/addInvoices', (req, res) => {
+//   invoiceModel.addInvoices(req.body).then(data => {
+//     res.json({
+//       code: 1,
+//       info: {
+//         data: req.body,
+//         message: "Add Success",
+//       }
+//     })
+//   }).catch(err => {
+//     res.json({
+//       code: 0,
+//       info: {
+//         message: err,
+//       }
+//     })
+//   })
+// })
 
+<<<<<<< HEAD
 router.post('/bankingCard', (req, res) => {
+=======
+router.post('/getBankingCard', (req, res) => {
+>>>>>>> 3400c8f833a9a3d9a9d8296a53bea1cda3c8e8af
   bankingCardModel.getByUser(req.body.id).then(data => {
     res.json({
       code: 1,
@@ -520,4 +524,53 @@ router.put('/bankingCard', (req, res) => {
     })
   })
 })
+
+router.post('/addInvoice', (req, res) => {
+  let productsList = req.body.productsList;
+  let id_customer = req.body.id_customer;
+  invoiceModel.createBlankInvoice(id_customer).then(invoice => {
+    let id_invoice = invoice.insertId;
+    let sum = 0;
+    console.log(productsList);
+    for (let i of productsList) {
+      sum += (i.quantity * i.singlePrice);
+    }
+    console.log(sum);
+    invoiceModel.createInvoiceDetails(id_invoice, productsList).then(details => {
+      invoiceModel.updateInvoiceTotalPrice(id_invoice, sum).then(updated => {
+        res.json({
+          code: 1,
+          info: {
+            message: "1",
+          }
+        })
+      }).catch(err => {
+        res.json({
+          code: 0,
+          info: {
+            message: "01",
+            err,
+          }
+        })
+      })
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: "02",
+          err,
+        }
+      })
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "03",
+        err,
+      }
+    })
+  })
+})
+
 module.exports = router;
