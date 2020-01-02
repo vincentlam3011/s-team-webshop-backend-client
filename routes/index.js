@@ -394,8 +394,28 @@ router.post('/invoices', (req, res) => {
   })
 })
 
+router.get('/bankingCard', (req, res) => {
+  bankingCardModel.getByUser(req.body.id).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "1",
+        data,
+      }
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: "0",
+          err,
+        }
+      })
+    })
+  })
+})
+
 router.put('/bankingCard', (req, res) => {
-  let {id_user, cardNum, cardType} = req.body;
+  let { id_user, cardNum, cardType } = req.body;
 
   bankingCardModel.editCard(id_user, cardNum, cardType).then(data => {
     res.json({
