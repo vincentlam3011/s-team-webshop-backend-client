@@ -340,59 +340,46 @@ router.put('/deleteCategories', (req, res) => {
     })
   })
 })
-router.post('/getInvoices', (req, res) => {
-  invoiceModel.getAllByUser(req.body.id)
-    .then(data => {
-      let details = _.groupBy(data, "id_invoice");
-      console.log(details);
-      var final = [];
-      _.forEach(details, (value, key) => {
-        const products = _.map(value, item => {
-          const { id_product, productName, quantity, singlePrice } = item;
-          return { id_product, productName, quantity, singlePrice };
-        })
-        const temp = {
-          id_invoice: value[0].id_invoice,
-          email: value[0].email,
-          products,
-        }
-        final.push(temp);
+
+router.post('/getInvoiceDetails', (req, res) => {
+  let id = req.body.id_customer;
+  invoiceModel.getInvoiceDetails(id).then(productsList => {
+    let list = _.groupBy(productsList, "id");
+    // res.json(list);
+    var final = [];
+    _.forEach(list, (value, key) => {
+      const products = _.map(value, item => {
+        const { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName } = item;
+        return { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName };
       })
-      res.json({
-        code: 1,
-        info: {
-          final,
-          message: "1",
-        }
-      })
+      const temp = {
+        id_invoice: value[0].id,
+        id_customer: value[0].id_customer,
+        createDate: value[0].createDate,
+        email: value[0].email,
+        status: value[0].status,
+        total: value[0].total,
+        products,
+      }
+      final.push(temp);
     })
-    .catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: err,
-        }
-      })
+    res.json({
+      code: 1,
+      info: {
+        final,
+        message: "1",
+      }
     })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "0",
+        err
+      }
+    })
+  })
 })
-// router.post('/addInvoices', (req, res) => {
-//   invoiceModel.addInvoices(req.body).then(data => {
-//     res.json({
-//       code: 1,
-//       info: {
-//         data: req.body,
-//         message: "Add Success",
-//       }
-//     })
-//   }).catch(err => {
-//     res.json({
-//       code: 0,
-//       info: {
-//         message: err,
-//       }
-//     })
-//   })
-// })
 
 router.post('/getBankingCard', (req, res) => {
   bankingCardModel.getByUser(req.body.id).then(data => {
