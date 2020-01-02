@@ -375,24 +375,24 @@ router.post('/getInvoices', (req, res) => {
       })
     })
 })
-router.post('/addInvoices', (req, res) => {
-  invoiceModel.addInvoices(req.body).then(data => {
-    res.json({
-      code: 1,
-      info: {
-        data: req.body,
-        message: "Add Success",
-      }
-    })
-  }).catch(err => {
-    res.json({
-      code: 0,
-      info: {
-        message: err,
-      }
-    })
-  })
-})
+// router.post('/addInvoices', (req, res) => {
+//   invoiceModel.addInvoices(req.body).then(data => {
+//     res.json({
+//       code: 1,
+//       info: {
+//         data: req.body,
+//         message: "Add Success",
+//       }
+//     })
+//   }).catch(err => {
+//     res.json({
+//       code: 0,
+//       info: {
+//         message: err,
+//       }
+//     })
+//   })
+// })
 
 router.post('/getBankingCard', (req, res) => {
   bankingCardModel.getByUser(req.body.id).then(data => {
@@ -435,4 +435,53 @@ router.put('/bankingCard', (req, res) => {
     })
   })
 })
+
+router.post('/addInvoice', (req, res) => {
+  let productsList = req.body.productsList;
+  let id_customer = req.body.id_customer;
+  invoiceModel.createBlankInvoice(id_customer).then(invoice => {
+    let id_invoice = invoice.insertId;
+    let sum = 0;
+    console.log(productsList);
+    for (let i of productsList) {
+      sum += (i.quantity * i.singlePrice);
+    }
+    console.log(sum);
+    invoiceModel.createInvoiceDetails(id_invoice, productsList).then(details => {
+      invoiceModel.updateInvoiceTotalPrice(id_invoice, sum).then(updated => {
+        res.json({
+          code: 1,
+          info: {
+            message: "1",
+          }
+        })
+      }).catch(err => {
+        res.json({
+          code: 0,
+          info: {
+            message: "01",
+            err,
+          }
+        })
+      })
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: "02",
+          err,
+        }
+      })
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "03",
+        err,
+      }
+    })
+  })
+})
+
 module.exports = router;

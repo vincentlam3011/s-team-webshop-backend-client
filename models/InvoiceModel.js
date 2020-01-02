@@ -23,11 +23,27 @@ module.exports = {
         
         UPDATE invoices SET name='${invoice.name}',status=${invoice.status} where id =${invoice.id}`);
     },
+    createBlankInvoice: (id_customer) => {
+        return db.query(`insert into invoices(id_customer, status) values(${id_customer}, ${1})`);
+    },
+    createInvoiceDetails: (id, productsList) =>{
+        let query = 'insert into invoiceDetails (id_product, id_invoice, quantity, singlePrice) values';
+        let valueQuery = '';
+        for (let i of productsList) {
+            let value = `(${i.id_product}, ${id}, ${i.quantity}, ${i.singlePrice}),`;
+            valueQuery += value;
+        }
+        console.log(valueQuery);
+        query += valueQuery;
+        query = query.slice(0, -1);
+        console.log(query);
+        return db.query(query);
+    },
     getDetailsOfOneInvoice: (id) => {
         return db.query(`select i_d.*, i_d.singlePrice * i_d.quantity as total from invoiceDetails as i_d where i_d.id_invoice = ${id}`);
     },
     updateInvoiceTotalPrice: (id, total) => {
-        return db.query(`update invoices set totalPrice = ${total} where id = ${id}`);
+        return db.query(`update invoices set total = ${total}, status = ${2}, createDate = curdate(), estimatedDeliveryDate = DATE_ADD(curdate(), INTERVAL 3 DAY) where id = ${id}`);
     },
     deleteInvoices: (id) => {
         return db.query(`update invoices set status = ${0} where id =${id}`);
