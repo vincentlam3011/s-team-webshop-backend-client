@@ -12,7 +12,7 @@ var _ = require('lodash');
 
 var router = express.Router();
 /* GET home page. */
-router.get('/', function (req, res, next) {
+router.post('/', function (req, res, next) {
   // res.render('index', { title: 'Express' });
   res.json('Welcome');
 });
@@ -148,7 +148,7 @@ router.put('/deleteUsers', (req, res) => {
     })
   })
 })
-router.get('/getAllProducts', (req, res) => {
+router.post('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
       res.json({
@@ -169,7 +169,7 @@ router.get('/getAllProducts', (req, res) => {
     })
 })
 
-router.get('/getProductByCategory', (req, res) => {
+router.post('/getProductByCategory', (req, res) => {
   productModel.getProductsByCategory(req.body.id_category)
     .then(data => {
       res.json({
@@ -190,7 +190,7 @@ router.get('/getProductByCategory', (req, res) => {
     })
 })
 
-router.get('/getProductByQuery', (req, res) => {
+router.post('/getProductByQuery', (req, res) => {
   productModel.getProductsByQuery(req.body.searchStr)
     .then(data => {
       res.json({
@@ -210,7 +210,7 @@ router.get('/getProductByQuery', (req, res) => {
       })
     })
 })
-router.post('/products', (req, res) => {
+router.post('/addProducts', (req, res) => {
   productModel.addProduct(req.body).then(data => {
     res.json({
       code: 1,
@@ -265,7 +265,7 @@ router.put('/deleteProducts', (req, res) => {
     })
   })
 })
-router.get('/getCategories', (req, res) => {
+router.post('/getCategories', (req, res) => {
   categoryModel.getAll()
     .then(data => {
       res.json({
@@ -340,7 +340,7 @@ router.put('/deleteCategories', (req, res) => {
     })
   })
 })
-router.get('/getInvoices', (req, res) => {
+router.post('/getInvoices', (req, res) => {
   invoiceModel.getAllByUser(req.body.id)
     .then(data => {
       let details = _.groupBy(data, "id_invoice");
@@ -375,7 +375,7 @@ router.get('/getInvoices', (req, res) => {
       })
     })
 })
-router.post('/invoices', (req, res) => {
+router.post('/addInvoices', (req, res) => {
   invoiceModel.addInvoices(req.body).then(data => {
     res.json({
       code: 1,
@@ -394,7 +394,7 @@ router.post('/invoices', (req, res) => {
   })
 })
 
-router.get('/bankingCard', (req, res) => {
+router.post('/getBankingCard', (req, res) => {
   bankingCardModel.getByUser(req.body.id).then(data => {
     res.json({
       code: 1,
