@@ -466,8 +466,7 @@ router.post('/getInvoiceDetails', (req, res) => {
     })
   })
 })
-<<<<<<< HEAD
-=======
+
 
 router.post('/bankingCard', (req, res) => {
   bankingCardModel.getByUser(req.body.id).then(data => {
@@ -511,7 +510,6 @@ router.put('/bankingCard', (req, res) => {
   })
 })
 
->>>>>>> b94b936e0ec6b11c5f5d405f41103ac108ca4dd6
 router.post('/addInvoice', (req, res) => {
   let productsList = req.body.productsList;
   let id_customer = req.body.id_customer;
