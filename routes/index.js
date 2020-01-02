@@ -232,7 +232,7 @@ router.put('/deleteUsers', (req, res) => {
     })
   })
 })
-router.post('/getAllProducts', (req, res) => {
+router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
       res.json({
@@ -349,7 +349,7 @@ router.put('/deleteProducts', (req, res) => {
     })
   })
 })
-router.post('/getCategories', (req, res) => {
+router.get('/getCategories', (req, res) => {
   categoryModel.getAll()
     .then(data => {
       res.json({
