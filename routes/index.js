@@ -76,12 +76,7 @@ router.post('/register', (req, res, next) => {
     })
   })
 });
-<<<<<<< HEAD
 router.post('/addEmployee', (req, res, next) => {
-=======
-router.post('/users', (req, res, next) => {
->>>>>>> 4e8c933b26ac9a5eacb54d8dbd31d73a559976d4
-
   userModel.addUser(req.body, 1).then(data => {
     let id = data.insertId;
     userModel.addEmployee(id).then(result => {
@@ -134,7 +129,7 @@ router.put('/users', (req, res) => {
     })
   })
 })
-router.put('/users', (req, res) => {
+router.put('/deleteUsers', (req, res) => {
   userModel.deleteUsers(req.body.id).then(data => {
 
     res.json({
@@ -153,94 +148,9 @@ router.put('/users', (req, res) => {
     })
   })
 })
-router.get('/getAllUsers', (req, res) => {
-  userModel.getAll()
-    .then(data => {
- 
-      res.json({
-        code: 1,
-        info: {
-          data,
-          message: "1",
-        }
-      })
-    })
-    .catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: err,
-        }
-      })
-    })
-});
-router.get('/getUsersById', (req, res) => {
-  userModel.getById(req.body.id)
-    .then(data => {
- 
-      res.json({
-        code: 1,
-        info: {
-          data,
-          message: "1",
-        }
-      })
-    })
-    .catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: err,
-        }
-      })
-    })
-})
-router.get('/getCustomers', (req, res) => {
-  userModel.getCustomers()
-    .then(data => {
- 
-      res.json({
-        code: 1,
-        info: {
-          data,
-          message: "1",
-        }
-      })
-    })
-    .catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: err,
-        }
-      })
-    })
-})
-router.get('/getEmployees', (req, res) => {
-  userModel.getEmployees()
-    .then(data => {
- 
-      res.json({
-        code: 1,
-        info: {
-          data,
-          message: "1",
-        }
-      })
-    })
-    .catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: err,
-        }
-      })
-    })
-})
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
- 
       res.json({
         code: 1,
         info: {
@@ -336,7 +246,7 @@ router.put('/products', (req, res) => {
     })
   })
 })
-router.put('/products', (req, res) => {
+router.put('/deleteProducts', (req, res) => {
   productModel.deleteProduct(req.body.id).then(data => {
 
     res.json({
@@ -479,6 +389,28 @@ router.post('/invoices', (req, res) => {
       code: 0,
       info: {
         message: err,
+      }
+    })
+  })
+})
+
+router.put('/bankingCard', (req, res) => {
+  let {id_user, cardNum, cardType} = req.body;
+
+  bankingCardModel.editCard(id_user, cardNum, cardType).then(data => {
+    res.json({
+      code: 1,
+      info: {
+        message: "editted",
+        data,
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "failed",
+        err,
       }
     })
   })
