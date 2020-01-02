@@ -441,6 +441,7 @@ router.post('/getInvoiceDetails', (req, res) => {
         id_invoice: value[0].id,
         id_customer: value[0].id_customer,
         createDate: value[0].createDate,
+        deliveryDate: value[0].estimatedDeliveryDate,
         email: value[0].email,
         status: value[0].status,
         total: value[0].total,
@@ -466,11 +467,7 @@ router.post('/getInvoiceDetails', (req, res) => {
   })
 })
 
-<<<<<<< HEAD
 router.post('/bankingCard', (req, res) => {
-=======
-router.post('/getBankingCard', (req, res) => {
->>>>>>> 3400c8f833a9a3d9a9d8296a53bea1cda3c8e8af
   bankingCardModel.getByUser(req.body.id).then(data => {
     res.json({
       code: 1,
