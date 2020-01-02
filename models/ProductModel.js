@@ -40,6 +40,6 @@ module.exports = {
         UPDATE products SET id_category=${product.id_category},name='${product.name}',imgUrl='${product.imgUrl}',description='${product.description}',price=${product.price},status=${product.status} where id =${product.id}`);
     },
     deleteProduct: (id) => {        
-        return db.query(`delete from products where id =${id}`);
+        return db.query(`update products set status = ${0} where id =${id}`);
     }
 }

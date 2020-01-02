@@ -27,6 +27,6 @@ module.exports = {
         UPDATE users SET email='${user.email}',password='${user.password}',dial='${user.dial}',address='${user.address}',status=${user.status},type=${user.type} where id =${user.id}`);
     },
     deleteUsers: (id) => {        
-        return db.query(`delete from users where id =${id}`);
+        return db.query(`update users set status = ${0} where id =${id}`);
     }
 }

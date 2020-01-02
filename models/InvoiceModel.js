@@ -24,6 +24,6 @@ module.exports = {
         UPDATE invoices SET name='${invoice.name}',status=${invoice.status} where id =${invoice.id}`);
     },
     deleteInvoices: (id) => {
-        return db.query(`delete from invoices where id =${id}`);
+        return db.query(`update invoices set status = ${0} where id =${id}`);
     }
 }

@@ -18,6 +18,6 @@ module.exports = {
         UPDATE categories SET name='${category.name}',status=${category.status} where id =${category.id}`);
     },
     deleteCategories: (id) => {
-        return db.query(`delete from categories where id =${id}`);
+        return db.query(`update categories set status = ${0} where id =${id}`);
     }
 }

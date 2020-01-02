@@ -51,7 +51,7 @@ router.post('/register', (req, res, next) => {
       code: 1,
       info: {
         data: req.body,
-        message: "Register Successfull",
+        message: "Registered Successfull",
       }
     })
   }).catch(err => {
@@ -101,7 +101,7 @@ router.put('/users', (req, res) => {
     })
   })
 })
-router.delete('/users', (req, res) => {
+router.put('/users', (req, res) => {
   userModel.deleteUsers(req.body.id).then(data => {
 
     res.json({
@@ -218,7 +218,7 @@ router.put('/products', (req, res) => {
     })
   })
 })
-router.delete('/products', (req, res) => {
+router.put('/products', (req, res) => {
   productModel.deleteProduct(req.body.id).then(data => {
 
     res.json({
@@ -293,7 +293,7 @@ router.put('/categories', (req, res) => {
     })
   })
 })
-router.delete('/categories', (req, res) => {
+router.put('/deleteCategories', (req, res) => {
   categoryModel.deleteCategories(req.body.id).then(data => {
 
     res.json({
