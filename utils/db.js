@@ -3,10 +3,10 @@ var mysql = require('mysql');
 var createConnection = () => {
     return mysql.createConnection({
         host: 'localhost',
-        database: 'nhom14_webshop',
+        database: 'Nhom14_WebShop',
         port: '3306',
         user: 'root',
-        password: '30111998',
+        password: 'mysql41098',
         dateStrings: true,
         timezone: 'Z',
 
