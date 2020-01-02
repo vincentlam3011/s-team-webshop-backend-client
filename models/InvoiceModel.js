@@ -23,6 +23,12 @@ module.exports = {
         
         UPDATE invoices SET name='${invoice.name}',status=${invoice.status} where id =${invoice.id}`);
     },
+    getDetailsOfOneInvoice: (id) => {
+        return db.query(`select i_d.*, i_d.singlePrice * i_d.quantity as total from invoiceDetails as i_d where i_d.id_invoice = ${id}`);
+    },
+    updateInvoiceTotalPrice: (id, total) => {
+        return db.query(`update invoices set totalPrice = ${total} where id = ${id}`);
+    },
     deleteInvoices: (id) => {
         return db.query(`update invoices set status = ${0} where id =${id}`);
     }
