@@ -111,6 +111,90 @@ router.post('/addEmployee', (req, res, next) => {
     })
   })
 });
+router.get('/getAllUsers', (req, res) => {
+  userModel.getAll()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+});
+router.post('/getUsersById', (req, res) => {
+  userModel.getById(req.body.id)
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+router.get('/getCustomers', (req, res) => {
+  userModel.getCustomers()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
+router.get('/getEmployees', (req, res) => {
+  userModel.getEmployees()
+    .then(data => {
+ 
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
 router.put('/users', (req, res) => {
   userModel.updateUsers(req.body).then(data => {
     res.json({
@@ -287,6 +371,7 @@ router.post('/getCategories', (req, res) => {
 })
 router.post('/categories', (req, res) => {
   categoryModel.addcategory(req.body).then(data => {
+    console.log('data:', data);
     res.json({
       code: 1,
       info: {
@@ -381,7 +466,11 @@ router.post('/getInvoiceDetails', (req, res) => {
   })
 })
 
+<<<<<<< HEAD
+router.post('/bankingCard', (req, res) => {
+=======
 router.post('/getBankingCard', (req, res) => {
+>>>>>>> 3400c8f833a9a3d9a9d8296a53bea1cda3c8e8af
   bankingCardModel.getByUser(req.body.id).then(data => {
     res.json({
       code: 1,
