@@ -15,6 +15,13 @@ module.exports = {
         let query = select + " " + from + " " + where;
         return db.query(query);
     },
+    getProductsById: (id) => {
+        let select = `select p.*, c.name as categoryName`;
+        let from = `from products as p, categories as c`;
+        let where = `where p.status = ${1} and c.status = ${1} and c.id = p.id_category and  p.id like ${id}`;
+        let query = select + " " + from + " " + where;
+        return db.query(query);
+    },
     getProductsByCategory: (id_category) => {
         let select = `select p.*, c.name as categoryName`;
         let from = `from products as p, categories as c`;

@@ -252,7 +252,26 @@ router.get('/getAllProducts', (req, res) => {
       })
     })
 })
-
+router.post('/getProductById', (req, res) => {
+  productModel.getProductsById(req.body.id)
+    .then(data => {
+      res.json({
+        code: 1,
+        info: {
+          data,
+          message: "1",
+        }
+      })
+    })
+    .catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
+    })
+})
 router.post('/getProductByCategory', (req, res) => {
   productModel.getProductsByCategory(req.body.id_category)
     .then(data => {
