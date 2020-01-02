@@ -233,7 +233,7 @@ router.put('/deleteUsers', (req, res) => {
   })
 })
 router.get('/getAllProducts', (req, res) => {
-  productModel. Products()
+  productModel.getAllProducts()
     .then(data => {
       res.json({
         code: 1,
