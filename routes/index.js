@@ -403,14 +403,14 @@ router.post('/bankingCard', (req, res) => {
         message: "1",
         data,
       }
-    }).catch(err => {
-      res.json({
-        code: 0,
-        info: {
-          message: "0",
-          err,
-        }
-      })
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: "0",
+        err,
+      }
     })
   })
 })
