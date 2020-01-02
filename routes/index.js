@@ -444,7 +444,49 @@ router.put('/deleteCategories', (req, res) => {
     })
   })
 })
-
+router.get('/getAllInvoices', (req, res) => {
+  invoiceModel.getAllInvoices()
+    .then(productsList => {
+      let list = _.groupBy(productsList, "id");
+      // res.json(list);
+      var final = [];
+      _.forEach(list, (value, key) => {
+        const products = _.map(value, item => {
+          const { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName,dial,address,password } = item;
+          return { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName,dial,address,password };
+        })
+        const temp = {
+          id_invoice: value[0].id,
+          id_customer: value[0].id_customer,
+          createDate: value[0].createDate,
+          deliveryDate: value[0].estimatedDeliveryDate,
+          email: value[0].email,
+          password: value[0].password,
+          dial: value[0].dial,
+          address: value[0].address,
+          status: value[0].status,
+          total: value[0].total,
+          products,
+        }
+        final.push(temp);
+      })
+      res.json({
+        code: 1,
+        info: {
+          final,
+          message: "1",
+        }
+      })
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: "0",
+          err
+        }
+      })
+    })
+})
 router.post('/getInvoiceDetails', (req, res) => {
   let id = req.body.id_customer;
   invoiceModel.getInvoiceDetails(id).then(productsList => {

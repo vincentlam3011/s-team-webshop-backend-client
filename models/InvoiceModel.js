@@ -1,6 +1,14 @@
 var db = require('../utils/db');
 
 module.exports = {
+    getAllInvoices: () => {
+        let select = `select inv.id, u.id as id_customer, u.*, p.id as id_product, p.name as productName, p.price as curPrice, p.id_category, c.name as categoryName
+        , i.quantity, inv.createDate, inv.estimatedDeliveryDate, inv.total`;
+        let from = `from invoiceDetails as i, products as p, categories as c, invoices as inv, users as u`;
+        let where = `where p.id_category = c.id and i.id_product = p.id and i.id_invoice = inv.id and inv.id_customer = u.id`;
+        let query = select + " " + from + " " + where;
+        return db.query(query);
+    },
     getAllByUser: (id) => {
         let select = `select u.email, i_d.*, p.name as productName`;
         let from = `from invoices as i, invoicedetails as i_d, users as u, products as p`;
@@ -34,7 +42,7 @@ module.exports = {
     createBlankInvoice: (id_customer) => {
         return db.query(`insert into invoices(id_customer, status) values(${id_customer}, ${1})`);
     },
-    createInvoiceDetails: (id, productsList) =>{
+    createInvoiceDetails: (id, productsList) => {
         let query = 'insert into invoiceDetails (id_product, id_invoice, quantity, singlePrice) values';
         let valueQuery = '';
         for (let i of productsList) {
