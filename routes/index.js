@@ -63,7 +63,7 @@ router.post('/register', (req, res, next) => {
     })
   })
 });
-router.post('/post', (req, res, next) => {
+router.post('/users', (req, res, next) => {
 
   userModel.addUser(req.body).then(data => {
     console.log('data:', data);
@@ -123,6 +123,7 @@ router.delete('/users', (req, res) => {
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {
+ 
       res.json({
         code: 1,
         info: {
