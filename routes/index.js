@@ -169,7 +169,7 @@ router.get('/getAllProducts', (req, res) => {
     })
 })
 
-router.get('/getProductByCategory', (req, res) => {
+router.post('/getProductByCategory', (req, res) => {
   productModel.getProductsByCategory(req.body.id_category)
     .then(data => {
       res.json({
@@ -190,7 +190,7 @@ router.get('/getProductByCategory', (req, res) => {
     })
 })
 
-router.get('/getProductByQuery', (req, res) => {
+router.post('/getProductByQuery', (req, res) => {
   productModel.getProductsByQuery(req.body.searchStr)
     .then(data => {
       res.json({
@@ -341,7 +341,7 @@ router.put('/deleteCategories', (req, res) => {
     })
   })
 })
-router.get('/getInvoices', (req, res) => {
+router.post('/getInvoices', (req, res) => {
   invoiceModel.getAllByUser(req.body.id)
     .then(data => {
       let details = _.groupBy(data, "id_invoice");
@@ -395,7 +395,7 @@ router.post('/invoices', (req, res) => {
   })
 })
 
-router.get('/bankingCard', (req, res) => {
+router.post('/bankingCard', (req, res) => {
   bankingCardModel.getByUser(req.body.id).then(data => {
     res.json({
       code: 1,
