@@ -287,6 +287,7 @@ router.get('/getCategories', (req, res) => {
 })
 router.post('/categories', (req, res) => {
   categoryModel.addcategory(req.body).then(data => {
+    console.log('data:', data);
     res.json({
       code: 1,
       info: {
