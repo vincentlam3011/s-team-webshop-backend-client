@@ -29,10 +29,10 @@ module.exports = {
         
         UPDATE users SET email='${user.email}',password='${user.password}',dial='${user.dial}',address='${user.address}',status=${user.status},type=${user.type} where id =${user.id}`);
     },
-    deleteUsers: (id) => {        
-        return db.query(`update users set status = ${0} where id =${id}`);
+    getByIdForAdmin: (id) => {
+        return db.query(`select * from users where id = ${id}`);
     },
-    recoverUsers: (id) => {
-        return db.query(`update users set status = ${1} where id = ${id}`);
-    }
+    changeUserStatus: (id, status) => {        
+        return db.query(`update users set status = ${status} where id =${id}`);
+    },
 }

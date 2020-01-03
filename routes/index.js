@@ -213,34 +213,29 @@ router.put('/users', (req, res) => {
     })
   })
 })
-router.put('/deleteUsers', (req, res) => {
-  userModel.deleteUsers(req.body.id).then(data => {
 
-    res.json({
-      code: 1,
-      info: {
-        data: req.body,
-        message: "Delete Successfull",
-      }
-    })
-  }).catch(err => {
-    res.json({
-      code: 0,
-      info: {
-        message: err,
-      }
-    })
-  })
-})
-router.put('/recoverUsers', (req, res) => {
-  userModel.recoverUsers(req.body.id).then(data => {
-
-    res.json({
-      code: 1,
-      info: {
-        data: req.body,
-        message: "Recover Successfull",
-      }
+router.put('/updateUserStatus', (req, res) => {
+  userModel.getByIdForAdmin(req.body.id).then(user => {
+    let curStt = user[0].status;
+    curStt = Number.parseInt(curStt);
+    console.log("CUr stt: " + curStt);
+    if (curStt === 1) curStt = 0;
+    else curStt = 1;
+    userModel.changeUserStatus(req.body.id, curStt).then(data => {
+      res.json({
+        code: 1,
+        info: {
+          message: 'Change status to ' + curStt,
+          data,
+        }
+      })
+    }).catch(err => {
+      res.json({
+        code: 0,
+        info: {
+          message: err,
+        }
+      })
     })
   }).catch(err => {
     res.json({
@@ -472,8 +467,8 @@ router.get('/getAllInvoices', (req, res) => {
       var final = [];
       _.forEach(list, (value, key) => {
         const products = _.map(value, item => {
-          const { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName,dial,address,password } = item;
-          return { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName,dial,address,password };
+          const { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName, dial, address, password } = item;
+          return { id_produc, name, productName, thenPrice, curPrice, id_category, categoryName, dial, address, password };
         })
         const temp = {
           id_invoice: value[0].id,
