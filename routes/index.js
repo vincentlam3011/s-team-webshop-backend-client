@@ -311,6 +311,8 @@ router.post('/getProductByCategory', (req, res) => {
 router.post('/getProductByQuery', (req, res) => {
   productModel.getProductsByQuery(req.body.searchStr)
     .then(data => {
+      console.log(req.body.searchStr);
+      console.log(data);
       res.json({
         code: 1,
         info: {
