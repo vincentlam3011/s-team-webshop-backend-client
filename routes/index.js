@@ -232,6 +232,26 @@ router.put('/deleteUsers', (req, res) => {
     })
   })
 })
+router.put('/recoverUsers', (req, res) => {
+  userModel.recoverUsers(req.body.id).then(data => {
+
+    res.json({
+      code: 1,
+      info: {
+        data: req.body,
+        message: "Recover Successfull",
+      }
+    })
+  }).catch(err => {
+    res.json({
+      code: 0,
+      info: {
+        message: err,
+      }
+    })
+  })
+})
+
 router.get('/getAllProducts', (req, res) => {
   productModel.getAllProducts()
     .then(data => {

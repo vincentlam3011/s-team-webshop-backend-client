@@ -31,5 +31,8 @@ module.exports = {
     },
     deleteUsers: (id) => {        
         return db.query(`update users set status = ${0} where id =${id}`);
+    },
+    recoverUsers: (id) => {
+        return db.query(`update users set status = ${1} where id = ${id}`);
     }
 }
